@@ -16,6 +16,10 @@ player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 bg_image = pygame.image.load('Resources/Images/background.png')
 bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
+player_sprite = pygame.image.load(
+    'Resources/Sprites/Player/playerShip1_blue.png')
+player_sprite = pygame.transform.rotate(player_sprite, 270)
+
 while running:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -29,7 +33,8 @@ while running:
     if i <= -SCREEN_WIDTH:
         i = 0
     i -= BACKGROUND_MOVE_SPEED
-    pygame.draw.circle(screen, "red", player_pos, 40)
+
+    screen.blit(player_sprite, player_pos)
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
