@@ -1,6 +1,7 @@
 import pygame
 
 from constants import *
+from player import Player
 
 # pygame setup
 pygame.init()
@@ -19,6 +20,10 @@ bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 player_sprite = pygame.image.load(
     'Resources/Sprites/Player/playerShip1_blue.png')
 player_sprite = pygame.transform.rotate(player_sprite, 270)
+player = Player(player_sprite, player_pos)
+
+player_sprite_group = pygame.sprite.Group()
+player_sprite_group.add(player)
 
 while running:
     # poll for events
@@ -34,17 +39,8 @@ while running:
         i = 0
     i -= BACKGROUND_MOVE_SPEED
 
-    screen.blit(player_sprite, player_pos)
-
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        player_pos.y -= PLAYER_MOVE_SPEED * dt
-    if keys[pygame.K_s]:
-        player_pos.y += PLAYER_MOVE_SPEED * dt
-    if keys[pygame.K_a]:
-        player_pos.x -= PLAYER_MOVE_SPEED * dt
-    if keys[pygame.K_d]:
-        player_pos.x += PLAYER_MOVE_SPEED * dt
+    player.update(dt)
+    player_sprite_group.draw(screen)
 
     pygame.display.update()
 
