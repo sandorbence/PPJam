@@ -1,4 +1,6 @@
 import pygame
+import logging
+import random
 
 from constants import *
 from player import Player
@@ -6,6 +8,8 @@ from asteroid_factory import AsteroidFactory
 
 # pygame setup
 pygame.init()
+
+logging.basicConfig(level=logging.DEBUG)
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
@@ -26,10 +30,11 @@ player = Player(player_sprite, player_pos)
 player_sprite_group = pygame.sprite.Group()
 player_sprite_group.add(player)
 
-asteroid = AsteroidFactory.create(1)
-
 asteroid_sprite_group = pygame.sprite.Group()
-asteroid_sprite_group.add(asteroid)
+
+asteroid_counter = 0
+next_asteroid = random.randrange(
+    ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / 100
 
 while running:
     # poll for events
@@ -48,7 +53,17 @@ while running:
     player.update(dt)
     player_sprite_group.draw(screen)
 
-    asteroid.update(dt)
+    asteroid_counter += dt
+
+    if asteroid_counter >= next_asteroid:
+        asteroid = AsteroidFactory.create()
+        asteroid_sprite_group.add(asteroid)
+        
+        next_asteroid = random.randrange(
+        ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / 100
+        asteroid_counter = 0
+
+    asteroid_sprite_group.update(dt)
     asteroid_sprite_group.draw(screen)
 
     pygame.display.update()
