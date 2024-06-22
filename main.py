@@ -1,7 +1,7 @@
 import pygame
 import logging
-from States.state_manager import StateManager
 
+from States.state_manager import StateManager
 from constants import *
 
 # pygame setup

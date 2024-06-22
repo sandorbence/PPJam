@@ -1,4 +1,4 @@
-from game_state import GameState
+from States.game_state import GameState
 
 class MainMenu(GameState):
     def __init__(self, screen):
