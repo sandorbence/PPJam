@@ -1,4 +1,4 @@
-from game_states import MainMenu, Playing, GameOver
+from States.game_state import MainMenu, Playing, GameOver
 
 
 class StateManager:

@@ -1,10 +1,8 @@
 import pygame
 import logging
-from state_manager import StateManager
+from States.state_manager import StateManager
 
 from constants import *
-from player import Player
-from asteroid_factory import AsteroidFactory
 
 # pygame setup
 pygame.init()

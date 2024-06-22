@@ -1,32 +1,10 @@
 import pygame
 import random
 
-from constants import *
+from States.game_state import GameState
 from player import Player
 from asteroid_factory import AsteroidFactory
-
-
-class GameState():
-    def __init__(self, screen):
-        pass
-
-    def update(self, dt):
-        pass
-
-    def render(self):
-        pass
-
-
-class MainMenu(GameState):
-    def __init__(self, screen):
-        self.screen = screen
-
-    def update(self, dt):
-        return super().update()
-
-    def render(self):
-        return super().render()
-
+from constants import *
 
 class Playing(GameState):
     def __init__(self, screen):
@@ -77,17 +55,6 @@ class Playing(GameState):
 
         self.asteroid_sprite_group.update(dt)
         self.asteroid_sprite_group.draw(self.screen)
-
-    def render(self):
-        return super().render()
-
-
-class GameOver(GameState):
-    def __init__(self, screen):
-        self.screen = screen
-
-    def update(self, dt):
-        return super().update()
 
     def render(self):
         return super().render()
