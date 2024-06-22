@@ -16,13 +16,18 @@ dt = 0
 state_manager = StateManager(screen)
 
 while running:
+    
+    events = pygame.event.get()
+    
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
-    for event in pygame.event.get():
+    for event in events:
         if event.type == pygame.QUIT:
             running = False
 
+    state_manager.handle_events(events)
     state_manager.update(dt)
+    state_manager.render()
 
     pygame.display.update()
 

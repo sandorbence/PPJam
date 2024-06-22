@@ -6,6 +6,7 @@ from player import Player
 from asteroid_factory import AsteroidFactory
 from constants import *
 
+
 class Playing(GameState):
     def __init__(self, screen):
         self.screen = screen
@@ -32,16 +33,15 @@ class Playing(GameState):
 
         self.i = 0
 
+    def handle_events(self, events):
+        return super().handle_events()
+
     def update(self, dt):
-        self.screen.fill((0, 0, 0))
-        self.screen.blit(self.bg_image, (self.i, 0))
-        self.screen.blit(self.bg_image, (SCREEN_WIDTH+self.i, 0))
         if self.i <= -SCREEN_WIDTH:
             self.i = 0
         self.i -= BACKGROUND_MOVE_SPEED
 
         self.player_sprite_group.update(dt)
-        self.player_sprite_group.draw(self.screen)
 
         self.asteroid_counter += dt
 
@@ -54,7 +54,9 @@ class Playing(GameState):
             self.asteroid_counter = 0
 
         self.asteroid_sprite_group.update(dt)
-        self.asteroid_sprite_group.draw(self.screen)
 
     def render(self):
-        return super().render()
+        self.screen.blit(self.bg_image, (self.i, 0))
+        self.screen.blit(self.bg_image, (SCREEN_WIDTH+self.i, 0))
+        self.player_sprite_group.draw(self.screen)
+        self.asteroid_sprite_group.draw(self.screen)
