@@ -11,4 +11,6 @@ class Asteroid(pygame.sprite.Sprite):
         self.hitbox_y = hitbox_y
 
     def update(self, dt):
-        self.rect.x -= ASTEROID_MOVE_SPEED * dt
+        position_change = ASTEROID_MOVE_SPEED * dt
+        self.rect.x -= position_change
+        self.position.x -= position_change

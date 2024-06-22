@@ -10,7 +10,7 @@ class AsteroidFactory:
     @classmethod
     def create(cls):
         y_coord = random.randint(0, SCREEN_HEIGHT)
-        position = (SCREEN_WIDTH, y_coord)
+        position = pygame.Vector2(SCREEN_WIDTH, y_coord)
 
         variant_key = ""
         variant_index = random.randint(0,len(ASTEROID_VARIANTS))
@@ -29,6 +29,12 @@ class AsteroidFactory:
         
         new_height = random.randint(ASTEROID_MIN_HEIGHT, ASTEROID_MAX_HEIGHT)
         new_width = new_height * aspect_ratio
+
+        height_multiplier = new_height / original_height
+        width_multiplier = new_width / original_width
+
+        variant["hitbox_x"] = variant["hitbox_x"] * width_multiplier
+        variant["hitbox_y"] = variant["hitbox_y"] * height_multiplier
         
         variant["img"] = pygame.transform.scale(variant["img"], (new_width, new_height))
 
