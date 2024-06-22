@@ -27,7 +27,7 @@ player_sprite_group = pygame.sprite.Group()
 player_sprite_group.add(player)
 
 asteroid_sprite = pygame.image.load('Resources/Meteors/Meteor_02.png')
-asteroid_sprite = pygame.transform.scale(asteroid_sprite, (100, 100))
+asteroid_sprite = pygame.transform.scale(asteroid_sprite, (ASTEROID_V1_WIDTH, ASTEROID_V1_HEIGHT))
 asteroid_pos = pygame.Vector2(screen.get_width(), screen.get_height() / 2)
 
 asteroid = Asteroid(asteroid_sprite, asteroid_pos)
