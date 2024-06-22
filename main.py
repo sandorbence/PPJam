@@ -1,22 +1,20 @@
-# Example file showing a circle moving on screen
 import pygame
+
+from constants import *
 
 # pygame setup
 pygame.init()
-width = 1280
-height = 720
-screen = pygame.display.set_mode((width, height))
+
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 running = True
 dt = 0
 i = 0
-background_move_speed = 3
-player_move_speed = 300
 
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
 bg_image = pygame.image.load('Resources/Images/background.png')
-bg_image = pygame.transform.scale(bg_image, (width, height))
+bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 while running:
     # poll for events
@@ -27,21 +25,21 @@ while running:
 
     screen.fill((0, 0, 0))
     screen.blit(bg_image, (i, 0))
-    screen.blit(bg_image, (width+i, 0))
-    if i <= -width:
+    screen.blit(bg_image, (SCREEN_WIDTH+i, 0))
+    if i <= -SCREEN_WIDTH:
         i = 0
-    i -= background_move_speed
+    i -= BACKGROUND_MOVE_SPEED
     pygame.draw.circle(screen, "red", player_pos, 40)
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player_pos.y -= player_move_speed * dt
+        player_pos.y -= PLAYER_MOVE_SPEED * dt
     if keys[pygame.K_s]:
-        player_pos.y += player_move_speed * dt
+        player_pos.y += PLAYER_MOVE_SPEED * dt
     if keys[pygame.K_a]:
-        player_pos.x -= player_move_speed * dt
+        player_pos.x -= PLAYER_MOVE_SPEED * dt
     if keys[pygame.K_d]:
-        player_pos.x += player_move_speed * dt
+        player_pos.x += PLAYER_MOVE_SPEED * dt
 
     pygame.display.update()
 
