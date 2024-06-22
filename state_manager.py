@@ -1,6 +1,4 @@
-from main_menu import MainMenu
-from playing import Playing
-from game_over import GameOver
+from game_states import MainMenu, Playing, GameOver
 
 
 class StateManager:
