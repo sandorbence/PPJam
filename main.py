@@ -3,12 +3,17 @@ import pygame
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+width = 1280
+height = 720
+screen = pygame.display.set_mode((width, height))
 clock = pygame.time.Clock()
 running = True
 dt = 0
 
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
+
+bg_image = pygame.image.load('Resources/Images/background.png')
+bg_image = pygame.transform.scale(bg_image,(width,height))
 
 while running:
     # poll for events
@@ -18,7 +23,8 @@ while running:
             running = False
 
     # fill the screen with a color to wipe away anything from last frame
-    screen.fill("purple")
+    #screen.fill("purple")
+    screen.blit(bg_image,(0,0))
 
     pygame.draw.circle(screen, "red", player_pos, 40)
 
