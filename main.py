@@ -2,6 +2,7 @@ import pygame
 import logging
 import random
 
+from collision_handler import CollisionHandler
 from constants import *
 from player import Player
 from asteroid_factory import AsteroidFactory
@@ -31,6 +32,7 @@ player_sprite_group = pygame.sprite.Group()
 player_sprite_group.add(player)
 
 asteroid_sprite_group = pygame.sprite.Group()
+asteroid_group = []
 
 asteroid_counter = 0
 next_asteroid = random.randrange(
@@ -55,13 +57,16 @@ while running:
 
     asteroid_counter += dt
 
-    if asteroid_counter >= next_asteroid:
+    if asteroid_counter >= next_asteroid and len(asteroid_group) < 1:
         asteroid = AsteroidFactory.create()
         asteroid_sprite_group.add(asteroid)
+        asteroid_group.append(asteroid)
         
         next_asteroid = random.randrange(
         ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / 100
         asteroid_counter = 0
+
+    CollisionHandler.checkPlayer(player, asteroid_group)
 
     asteroid_sprite_group.update(dt)
     asteroid_sprite_group.draw(screen)
