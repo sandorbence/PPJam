@@ -8,3 +8,5 @@
 * Add powerups
 * Add sounds for bg, collision, firing, powerup pickup
 * Make the game increasingly harder
+* Remove asteroids from sprite group after they left the screen
+* Spawn asteroids from before screen
