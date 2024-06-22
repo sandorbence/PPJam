@@ -2,19 +2,19 @@ from game_states import MainMenu, Playing, GameOver
 
 
 class StateManager:
-    def __init__(self):
+    def __init__(self, screen):
         self.states = {
-            'main_menu': MainMenu,
-            'playing': Playing,
-            'game_over': GameOver
+            'main_menu': MainMenu(screen),
+            'playing': Playing(screen),
+            'game_over': GameOver(screen)
         }
-        self.current_state = self.states['main_menu']
+        self.current_state = self.states['playing']
 
     def change_state(self, new_state):
         self.current_state = self.states[new_state]
 
-    def update(self):
-        self.current_state.update()
+    def update(self, dt):
+        self.current_state.update(dt)
 
     def render(self):
         self.current_state.render()
