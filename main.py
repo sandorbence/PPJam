@@ -2,6 +2,7 @@ import pygame
 
 from constants import *
 from player import Player
+from asteroid import Asteroid
 
 # pygame setup
 pygame.init()
@@ -12,18 +13,27 @@ running = True
 dt = 0
 i = 0
 
-player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
-
 bg_image = pygame.image.load('Resources/Images/background.png')
 bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 player_sprite = pygame.image.load(
     'Resources/Sprites/Player/playerShip1_blue.png')
+player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 player_sprite = pygame.transform.rotate(player_sprite, 270)
+
 player = Player(player_sprite, player_pos)
 
 player_sprite_group = pygame.sprite.Group()
 player_sprite_group.add(player)
+
+asteroid_sprite = pygame.image.load('Resources/Meteors/Meteor_02.png')
+asteroid_sprite = pygame.transform.scale(asteroid_sprite, (100, 100))
+asteroid_pos = pygame.Vector2(screen.get_width(), screen.get_height() / 2)
+
+asteroid = Asteroid(asteroid_sprite, asteroid_pos)
+
+asteroid_sprite_group = pygame.sprite.Group()
+asteroid_sprite_group.add(asteroid)
 
 while running:
     # poll for events
@@ -41,6 +51,9 @@ while running:
 
     player.update(dt)
     player_sprite_group.draw(screen)
+
+    asteroid.update(dt)
+    asteroid_sprite_group.draw(screen)
 
     pygame.display.update()
 
