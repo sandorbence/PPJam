@@ -1,10 +1,14 @@
 from main_menu import MainMenu
+from playing import Playing
+from game_over import GameOver
 
 
 class StateManager:
     def __init__(self):
         self.states = {
-            'main_menu': MainMenu
+            'main_menu': MainMenu,
+            'playing': Playing,
+            'game_over': GameOver
         }
         self.current_state = self.states['main_menu']
 
