@@ -2,7 +2,7 @@ import pygame
 
 from constants import *
 from player import Player
-from asteroid import Asteroid
+from asteroid_factory import AsteroidFactory
 
 # pygame setup
 pygame.init()
@@ -26,11 +26,7 @@ player = Player(player_sprite, player_pos)
 player_sprite_group = pygame.sprite.Group()
 player_sprite_group.add(player)
 
-asteroid_sprite = pygame.image.load('Resources/Meteors/Meteor_02.png')
-asteroid_sprite = pygame.transform.scale(asteroid_sprite, (ASTEROID_V1_WIDTH, ASTEROID_V1_HEIGHT))
-asteroid_pos = pygame.Vector2(screen.get_width(), screen.get_height() / 2)
-
-asteroid = Asteroid(asteroid_sprite, asteroid_pos)
+asteroid = AsteroidFactory.create(1)
 
 asteroid_sprite_group = pygame.sprite.Group()
 asteroid_sprite_group.add(asteroid)
