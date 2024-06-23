@@ -88,7 +88,7 @@ class Playing(GameState):
             collided = CollisionHandler.check_collision(self.player, asteroid)
             if collided:
                 pygame.event.post(pygame.event.Event(PLAYER_COLLIDED_EVENT, {
-                    'message': 'Player collided.'}))
+                    'message': f'{self.score.value}'}))
                 break
 
         if self.pickup != None:
