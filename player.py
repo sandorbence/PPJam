@@ -1,13 +1,13 @@
 import pygame
 from constants import *
 
-
 class Player(pygame.sprite.Sprite):
     def __init__(self, image, position):
         super().__init__()
         self.image = image
         self.rect = self.image.get_rect(center=position)
         self.position = position
+        self.hasRocket = False
 
     def update(self, dt):
         keys = pygame.key.get_pressed()
