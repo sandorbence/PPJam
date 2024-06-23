@@ -1,3 +1,4 @@
+import asyncio
 import pygame
 
 from States.state_manager import StateManager
@@ -13,24 +14,29 @@ pygame.mixer.music.play(-1)
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
-running = True
-dt = 0
+
 state_manager = StateManager(screen)
 
-while running:
+async def main():
 
-    events = pygame.event.get()
+    running = True
+    dt = 0
+    
+    while running:
 
-    for event in events:
-        if event.type == pygame.QUIT:
-            running = False
+        events = pygame.event.get()
 
-    state_manager.handle_events(events)
-    state_manager.update(dt)
-    state_manager.render()
+        for event in events:
+            if event.type == pygame.QUIT:
+                running = False
 
-    pygame.display.update()
+        state_manager.handle_events(events)
+        state_manager.update(dt)
+        state_manager.render()
 
-    dt = clock.tick(60) / 1000
+        pygame.display.update()
 
-pygame.quit()
+        dt = clock.tick(60) / 1000
+        await asyncio.sleep(0)
+
+asyncio.run(main())
