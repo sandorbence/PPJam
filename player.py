@@ -3,9 +3,11 @@ from constants import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, image, position):
+    def __init__(self, position):
         super().__init__()
-        self.image = image
+        self.image = pygame.image.load(
+            'Resources/Images/player.png')
+        self.image = pygame.transform.rotate(self.image, 270)
         self.rect = self.image.get_rect(center=position)
         self.position = position
         self.hasRocket = False

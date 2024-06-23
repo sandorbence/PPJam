@@ -6,7 +6,7 @@ from constants import ASTEROID_MOVE_SPEED
 class Rocket(pygame.sprite.Sprite):
     def __init__(self, position, pace):
         super().__init__()
-        sprite = pygame.image.load('Resources/Props/Missile_01.png')
+        sprite = pygame.image.load('Resources/Images/rocket.png')
         self.image = pygame.transform.rotate(sprite, 270)
         self.image = pygame.transform.scale(
             self.image, (self.image.get_width() / 4, self.image.get_height() / 4))

@@ -6,7 +6,7 @@ class Pickup(pygame.sprite.Sprite):
     def __init__(self, position, pace):
         super().__init__()
         self.image = pygame.image.load(
-            'Resources/Bonus_Items/Damage_Bonus.png')
+            'Resources/Images/pickup.png')
         self.image = pygame.transform.scale(
             self.image, (self.image.get_width()/4, self.image.get_height()/4))
         self.rect = self.image.get_rect(center=position)

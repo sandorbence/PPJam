@@ -20,13 +20,10 @@ class Playing(GameState):
         self.bg_image = pygame.transform.scale(
             self.bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-        player_sprite = pygame.image.load(
-            'Resources/Sprites/Player/playerShip1_blue.png')
         player_pos = pygame.Vector2(
             screen.get_width() / 2, screen.get_height() / 2)
-        player_sprite = pygame.transform.rotate(player_sprite, 270)
 
-        self.player = Player(player_sprite, player_pos)
+        self.player = Player(player_pos)
 
         self.player_sprite_group = pygame.sprite.Group()
         self.player_sprite_group.add(self.player)
