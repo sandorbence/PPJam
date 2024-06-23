@@ -39,8 +39,8 @@ class Playing(GameState):
         self.i = 0
 
         self.pickup_counter = 0
-        self.pickup = ''
-        self.rocket = ''
+        self.pickup = None
+        self.rocket = None
         self.next_pickup = random.randrange(
             PICKUP_MIN_SPAWN_TIME, PICKUP_MAX_SPAWN_TIME) / 100
 
@@ -89,12 +89,15 @@ class Playing(GameState):
                 pygame.event.post(pygame.event.Event(PLAYER_COLLIDED_EVENT, {
                 'message': 'Player collided.'}))
                 break
-        pickupCollision = CollisionHandler.checkPickup(
+            
+        if self.pickup != None:
+            pickupCollision = CollisionHandler.check_collision(
             self.player, self.pickup)
-        if pickupCollision:
-            self.player.hasRocket = True
-            self.pickup_sprite_group.empty()
-            self.pickup = ''
+            
+            if pickupCollision:
+                self.player.hasRocket = True
+                self.pickup_sprite_group.empty()
+                self.pickup = None
 
         if self.player.hasRocket:
             keys = pygame.key.get_pressed()
@@ -103,7 +106,7 @@ class Playing(GameState):
                 self.rocket_sprite_group.add(self.rocket)
                 self.player.hasRocket = False
 
-        if self.rocket != '':
+        if self.rocket != None:
             for asteroid in self.asteroid_group:
                 blasted = CollisionHandler.check_collision(
                     self.rocket, asteroid)
@@ -112,7 +115,7 @@ class Playing(GameState):
                     self.asteroid_sprite_group.remove(asteroid)
                     self.score.add_asteroid_score()
                     self.rocket_sprite_group.empty()
-                    self.rocket = ''
+                    self.rocket = None
                     break
 
         self.asteroid_sprite_group.update(dt)

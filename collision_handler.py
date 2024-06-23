@@ -1,24 +1,4 @@
-import pygame
-from events import PLAYER_COLLIDED_EVENT
-
-
 class CollisionHandler:
-    @classmethod
-    def checkPickup(cls, player, pickup):
-        if pickup != '':
-            hitboxXHalf = pickup.hitbox_x / 2
-            hitboxYHalf = pickup.hitbox_y / 2
-
-            pickup_left = pickup.position.x - hitboxXHalf
-            pickup_right = pickup.position.x + hitboxXHalf
-            pickup_top = pickup.position.y - hitboxYHalf
-            pickup_bot = pickup.position.y + hitboxYHalf
-
-            if player.position.x < pickup_right and player.position.x > pickup_left and player.position.y < pickup_bot and player.position.y > pickup_top:
-                return True
-
-        return False
-
     @classmethod
     def check_collision(cls, object1, object2):
         hitbox_half_x_1 = (object1.hitbox_x / 2)
