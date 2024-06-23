@@ -4,35 +4,16 @@ from events import PLAYER_COLLIDED_EVENT
 
 class CollisionHandler:
     @classmethod
-    def checkPlayer(cls, player, asteroids):
-        for asteroid in asteroids:
-            hitboxXHalf = (asteroid.hitbox_x / 2)
-            hitboxYHalf = (asteroid.hitbox_y / 2)
+    def check_player_collision(cls, player, asteroid):
+        collided = check_collision(player, asteroid)
 
-            asteroid_left = asteroid.position.x - hitboxXHalf
-            asteroid_right = asteroid.position.x + hitboxXHalf
-            asteroid_top = asteroid.position.y - hitboxYHalf
-            asteroid_bot = asteroid.position.y + hitboxYHalf
-
-            if player.position.x < asteroid_right and player.position.x > asteroid_left and player.position.y < asteroid_bot and player.position.y > asteroid_top:
-                pygame.event.post(pygame.event.Event(PLAYER_COLLIDED_EVENT, {
-                                  'message': 'Player collided.'}))
+        if collided:
+            pygame.event.post(pygame.event.Event(PLAYER_COLLIDED_EVENT, {
+                'message': 'Player collided.'}))
 
     @classmethod
-    def checkBlast(cls, rocket, asteroids):
-        for asteroid in asteroids:
-            hitboxXHalf = (asteroid.hitbox_x / 2)
-            hitboxYHalf = (asteroid.hitbox_y / 2)
-
-            asteroid_left = asteroid.position.x - hitboxXHalf
-            asteroid_right = asteroid.position.x + hitboxXHalf
-            asteroid_top = asteroid.position.y - hitboxYHalf
-            asteroid_bot = asteroid.position.y + hitboxYHalf
-
-            if rocket.position.x < asteroid_right and rocket.position.x > asteroid_left and rocket.position.y < asteroid_bot and rocket.position.y > asteroid_top:
-               asteroids.remove(asteroid)
-
-        return asteroids
+    def check_blast(cls, rocket, asteroid):
+        return check_collision(rocket, asteroid)
 
     @classmethod
     def checkPickup(cls, player, pickup):
@@ -44,9 +25,23 @@ class CollisionHandler:
             pickup_right = pickup.position.x + hitboxXHalf
             pickup_top = pickup.position.y - hitboxYHalf
             pickup_bot = pickup.position.y + hitboxYHalf
-            
+
             if player.position.x < pickup_right and player.position.x > pickup_left and player.position.y < pickup_bot and player.position.y > pickup_top:
                 return True
-            
+
         return False
-        
+
+
+def check_collision(object1, object2):
+    hitboxXHalf = (object2.hitbox_x / 2)
+    hitboxYHalf = (object2.hitbox_y / 2)
+
+    object2_left = object2.position.x - hitboxXHalf
+    object2_right = object2.position.x + hitboxXHalf
+    object2_top = object2.position.y - hitboxYHalf
+    object2_bot = object2.position.y + hitboxYHalf
+
+    if object1.position.x < object2_right and object1.position.x > object2_left and object1.position.y < object2_bot and object1.position.y > object2_top:
+        return True
+
+    return False

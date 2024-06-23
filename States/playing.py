@@ -25,7 +25,7 @@ class Playing(GameState):
             screen.get_width() / 2, screen.get_height() / 2)
         player_sprite = pygame.transform.rotate(player_sprite, 270)
 
-        self.player = Player(player_sprite, player_pos)
+        self.player = Player(player_sprite, player_pos, 20, 20)
 
         self.player_sprite_group = pygame.sprite.Group()
         self.player_sprite_group.add(self.player)
@@ -83,7 +83,8 @@ class Playing(GameState):
             self.pickup_sprite_group.add(self.pickup)
             self.pickup_counter = 0
 
-        CollisionHandler.checkPlayer(self.player, self.asteroid_group)
+        for asteroid in self.asteroid_group:
+            CollisionHandler.check_player_collision(self.player, asteroid)
         pickupCollision = CollisionHandler.checkPickup(
             self.player, self.pickup)
         if pickupCollision:
@@ -99,15 +100,15 @@ class Playing(GameState):
                 self.player.hasRocket = False
 
         if self.rocket != '':
-            self.asteroid_group = CollisionHandler.checkBlast(
-                self.rocket, self.asteroid_group)
-            if len(self.asteroid_group) != len(self.asteroid_sprite_group):
-                self.score.add_asteroid_score()
-                self.asteroid_sprite_group.empty()
-                for asteroid in self.asteroid_group:
-                    self.asteroid_sprite_group.add(asteroid)
-                self.rocket_sprite_group.empty()
-                self.rocket = ''
+            for asteroid in self.asteroid_group:
+                blasted = CollisionHandler.check_blast(self.rocket, asteroid)
+                if blasted:
+                    self.asteroid_group.remove(asteroid)
+                    self.asteroid_sprite_group.remove(asteroid)
+                    self.score.add_asteroid_score()
+                    self.rocket_sprite_group.empty()
+                    self.rocket = ''
+                    break
 
         self.asteroid_sprite_group.update(dt)
         self.pickup_sprite_group.update(dt)
