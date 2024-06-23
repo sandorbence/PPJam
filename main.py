@@ -1,5 +1,4 @@
 import pygame
-import logging
 
 from States.state_manager import StateManager
 from constants import *
@@ -7,7 +6,6 @@ from constants import *
 # pygame setup
 pygame.init()
 
-logging.basicConfig(level=logging.DEBUG)
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
@@ -16,9 +14,9 @@ dt = 0
 state_manager = StateManager(screen)
 
 while running:
-    
+
     events = pygame.event.get()
-    
+
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in events:
