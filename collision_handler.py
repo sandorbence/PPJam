@@ -4,18 +4,6 @@ from events import PLAYER_COLLIDED_EVENT
 
 class CollisionHandler:
     @classmethod
-    def check_player_collision(cls, player, asteroid):
-        collided = check_collision(player, asteroid)
-
-        if collided:
-            pygame.event.post(pygame.event.Event(PLAYER_COLLIDED_EVENT, {
-                'message': 'Player collided.'}))
-
-    @classmethod
-    def check_blast(cls, rocket, asteroid):
-        return check_collision(rocket, asteroid)
-
-    @classmethod
     def checkPickup(cls, player, pickup):
         if pickup != '':
             hitboxXHalf = pickup.hitbox_x / 2
@@ -31,17 +19,24 @@ class CollisionHandler:
 
         return False
 
+    @classmethod
+    def check_collision(cls, object1, object2):
+        hitbox_half_x_1 = (object1.hitbox_x / 2)
+        hitbox_half_y_1 = (object1.hitbox_y / 2)
+        hitbox_half_x_2 = (object2.hitbox_x / 2)
+        hitbox_half_y_2 = (object2.hitbox_y / 2)
 
-def check_collision(object1, object2):
-    hitboxXHalf = (object2.hitbox_x / 2)
-    hitboxYHalf = (object2.hitbox_y / 2)
+        object1_left = object1.position.x - hitbox_half_x_1
+        object1_right = object1.position.x + hitbox_half_x_1
+        object1_top = object1.position.y - hitbox_half_y_1
+        object1_bot = object1.position.y + hitbox_half_y_1
 
-    object2_left = object2.position.x - hitboxXHalf
-    object2_right = object2.position.x + hitboxXHalf
-    object2_top = object2.position.y - hitboxYHalf
-    object2_bot = object2.position.y + hitboxYHalf
+        object2_left = object2.position.x - hitbox_half_x_2
+        object2_right = object2.position.x + hitbox_half_x_2
+        object2_top = object2.position.y - hitbox_half_y_2
+        object2_bot = object2.position.y + hitbox_half_y_2
 
-    if object1.position.x < object2_right and object1.position.x > object2_left and object1.position.y < object2_bot and object1.position.y > object2_top:
-        return True
+        if object1_left < object2_right and object1_right > object2_left and object1_top < object2_bot and object1_bot > object2_top:
+            return True
 
-    return False
+        return False

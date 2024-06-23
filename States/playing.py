@@ -10,7 +10,7 @@ from constants import *
 from collision_handler import CollisionHandler
 from rocket import Rocket
 from score import Score
-
+from events import PLAYER_COLLIDED_EVENT
 
 class Playing(GameState):
     def __init__(self, screen):
@@ -25,7 +25,7 @@ class Playing(GameState):
             screen.get_width() / 2, screen.get_height() / 2)
         player_sprite = pygame.transform.rotate(player_sprite, 270)
 
-        self.player = Player(player_sprite, player_pos, 20, 20)
+        self.player = Player(player_sprite, player_pos)
 
         self.player_sprite_group = pygame.sprite.Group()
         self.player_sprite_group.add(self.player)
@@ -84,7 +84,11 @@ class Playing(GameState):
             self.pickup_counter = 0
 
         for asteroid in self.asteroid_group:
-            CollisionHandler.check_player_collision(self.player, asteroid)
+            collided = CollisionHandler.check_collision(self.player, asteroid)
+            if collided:
+                pygame.event.post(pygame.event.Event(PLAYER_COLLIDED_EVENT, {
+                'message': 'Player collided.'}))
+                break
         pickupCollision = CollisionHandler.checkPickup(
             self.player, self.pickup)
         if pickupCollision:
@@ -101,7 +105,8 @@ class Playing(GameState):
 
         if self.rocket != '':
             for asteroid in self.asteroid_group:
-                blasted = CollisionHandler.check_blast(self.rocket, asteroid)
+                blasted = CollisionHandler.check_collision(
+                    self.rocket, asteroid)
                 if blasted:
                     self.asteroid_group.remove(asteroid)
                     self.asteroid_sprite_group.remove(asteroid)
