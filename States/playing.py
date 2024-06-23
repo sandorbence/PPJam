@@ -102,6 +102,7 @@ class Playing(GameState):
             self.asteroid_group = CollisionHandler.checkBlast(
                 self.rocket, self.asteroid_group)
             if len(self.asteroid_group) != len(self.asteroid_sprite_group):
+                self.score.add_asteroid_score()
                 self.asteroid_sprite_group.empty()
                 for asteroid in self.asteroid_group:
                     self.asteroid_sprite_group.add(asteroid)

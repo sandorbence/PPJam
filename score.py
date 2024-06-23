@@ -1,5 +1,5 @@
 import pygame
-from constants import SCORE_MULTIPLIER
+from constants import SCORE_MULTIPLIER, ASTEROID_SCORE
 
 
 class Score():
@@ -15,3 +15,6 @@ class Score():
         text_surface = font.render(
             f'SCORE: {int(self.value)}', True, (255, 255, 255))
         self.screen.blit(text_surface, (20, 20))
+
+    def add_asteroid_score(self):
+        self.value += ASTEROID_SCORE
