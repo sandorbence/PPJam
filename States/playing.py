@@ -49,9 +49,16 @@ class Playing(GameState):
         self.pickup_sprite_group = pygame.sprite.Group()
 
         self.score = Score(self.screen)
+        
         self.pickup_sound = pygame.mixer.Sound('Resources/Sounds/pickup.wav')
         self.pickup_sound.set_volume(0.5)
-
+        self.game_over_sound = pygame.mixer.Sound('Resources/Sounds/game_over.wav')
+        self.game_over_sound.set_volume(0.2)
+        self.hit_sound = pygame.mixer.Sound('Resources/Sounds/hit.wav')
+        self.hit_sound.set_volume(0.5)
+        self.shoot_sound = pygame.mixer.Sound('Resources/Sounds/shoot.wav')
+        self.shoot_sound.set_volume(0.5)
+        
     def handle_events(self, events):
         return super().handle_events()
 
@@ -89,6 +96,7 @@ class Playing(GameState):
 
             collided = CollisionHandler.check_collision(self.player, asteroid)
             if collided:
+                self.game_over_sound.play()
                 pygame.event.post(pygame.event.Event(PLAYER_COLLIDED_EVENT, {
                     'message': f'{self.score.value}'}))
                 break
@@ -106,6 +114,7 @@ class Playing(GameState):
         if self.player.hasRocket:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
+                self.shoot_sound.play()
                 self.rocket = Rocket(copy.copy(self.player.position))
                 self.rocket_sprite_group.add(self.rocket)
                 self.player.hasRocket = False
@@ -115,6 +124,7 @@ class Playing(GameState):
                 blasted = CollisionHandler.check_collision(
                     self.rocket, asteroid)
                 if blasted:
+                    self.hit_sound.play()
                     self.asteroid_group.remove(asteroid)
                     self.asteroid_sprite_group.remove(asteroid)
                     self.score.add_asteroid_score()
