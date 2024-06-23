@@ -1,3 +1,6 @@
+from player import Player
+
+
 class CollisionHandler:
     @classmethod
     def check_collision(cls, object1, object2):
@@ -7,7 +10,7 @@ class CollisionHandler:
         hitbox_half_y_2 = (object2.hitbox_y / 2)
 
         object1_left = object1.position.x - hitbox_half_x_1
-        object1_right = object1.position.x + hitbox_half_x_1
+        object1_right = object1.position.x if object1 is Player else object1.position.x + hitbox_half_x_1
         object1_top = object1.position.y - hitbox_half_y_1
         object1_bot = object1.position.y + hitbox_half_y_1
 
