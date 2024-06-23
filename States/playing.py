@@ -57,6 +57,11 @@ class Playing(GameState):
         self.asteroid_sprite_group.update(dt)
 
         CollisionHandler.checkPlayer(self.player, self.asteroid_group)
+        
+        for asteroid in self.asteroid_group:
+            if asteroid.rect.right < 0:
+                self.asteroid_group.remove(asteroid)
+                self.asteroid_sprite_group.remove(asteroid)
 
     def render(self):
         self.screen.blit(self.bg_image, (self.i, 0))

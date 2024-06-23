@@ -18,7 +18,6 @@ class AsteroidFactory:
             if index == variant_index:
                 variant_key = key            
 
-        #nincs agyam, hogy rájöjjek most, hogy miért tud out of bounds lenni az előző történet
         if variant_key == "":
             variant_key = "asteroid5"
 
