@@ -12,6 +12,7 @@ from rocket import Rocket
 from score import Score
 from events import PLAYER_COLLIDED_EVENT
 
+
 class Playing(GameState):
     def __init__(self, screen):
         self.screen = screen
@@ -69,11 +70,6 @@ class Playing(GameState):
                 ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / 100
             self.asteroid_counter = 0
 
-        for asteroid in self.asteroid_group:
-            if asteroid.rect.right < 0:
-                self.asteroid_group.remove(asteroid)
-                self.asteroid_sprite_group.remove(asteroid)
-
         self.pickup_counter += dt
 
         if self.pickup_counter >= self.next_pickup and not self.player.hasRocket:
@@ -84,16 +80,21 @@ class Playing(GameState):
             self.pickup_counter = 0
 
         for asteroid in self.asteroid_group:
+            # Remove asteroid if it left the screen
+            if asteroid.rect.right < 0:
+                self.asteroid_group.remove(asteroid)
+                self.asteroid_sprite_group.remove(asteroid)
+
             collided = CollisionHandler.check_collision(self.player, asteroid)
             if collided:
                 pygame.event.post(pygame.event.Event(PLAYER_COLLIDED_EVENT, {
-                'message': 'Player collided.'}))
+                    'message': 'Player collided.'}))
                 break
-            
+
         if self.pickup != None:
             pickupCollision = CollisionHandler.check_collision(
-            self.player, self.pickup)
-            
+                self.player, self.pickup)
+
             if pickupCollision:
                 self.player.hasRocket = True
                 self.pickup_sprite_group.empty()
@@ -117,6 +118,16 @@ class Playing(GameState):
                     self.rocket_sprite_group.empty()
                     self.rocket = None
                     break
+
+        # Remove rocket if it collided with no asteroid and left the screen
+        for rocket in self.rocket_sprite_group:
+            if rocket.rect.left > SCREEN_WIDTH:
+                self.rocket_sprite_group.remove(rocket)
+
+        # Remove pickup if it left the screen
+        for pickup in self.pickup_sprite_group:
+            if pickup.rect.right < 0:
+                self.pickup_sprite_group.remove(pickup)
 
         self.asteroid_sprite_group.update(dt)
         self.pickup_sprite_group.update(dt)
