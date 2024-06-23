@@ -5,6 +5,7 @@ from constants import *
 
 # pygame setup
 pygame.init()
+pygame.mixer.init()
 
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -17,8 +18,6 @@ while running:
 
     events = pygame.event.get()
 
-    # poll for events
-    # pygame.QUIT event means the user clicked X to close your window
     for event in events:
         if event.type == pygame.QUIT:
             running = False
@@ -29,9 +28,6 @@ while running:
 
     pygame.display.update()
 
-    # limits FPS to 60
-    # dt is delta time in seconds since last frame, used for framerate-
-    # independent physics.
     dt = clock.tick(60) / 1000
 
 pygame.quit()
