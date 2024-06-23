@@ -5,6 +5,7 @@ from States.game_state import GameState
 from player import Player
 from asteroid_factory import AsteroidFactory
 from constants import *
+from collision_handler import CollisionHandler
 
 
 class Playing(GameState):
@@ -20,13 +21,13 @@ class Playing(GameState):
             screen.get_width() / 2, screen.get_height() / 2)
         player_sprite = pygame.transform.rotate(player_sprite, 270)
 
-        player = Player(player_sprite, player_pos)
+        self.player = Player(player_sprite, player_pos)
 
         self.player_sprite_group = pygame.sprite.Group()
-        self.player_sprite_group.add(player)
+        self.player_sprite_group.add(self.player)
 
         self.asteroid_sprite_group = pygame.sprite.Group()
-
+        self.asteroid_group = []
         self.asteroid_counter = 0
         self.next_asteroid = random.randrange(
             ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / 100
@@ -48,12 +49,14 @@ class Playing(GameState):
         if self.asteroid_counter >= self.next_asteroid:
             asteroid = AsteroidFactory.create()
             self.asteroid_sprite_group.add(asteroid)
-
+            self.asteroid_group.append(asteroid)
             self.next_asteroid = random.randrange(
                 ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / 100
             self.asteroid_counter = 0
 
         self.asteroid_sprite_group.update(dt)
+
+        CollisionHandler.checkPlayer(self.player, self.asteroid_group)
 
     def render(self):
         self.screen.blit(self.bg_image, (self.i, 0))
