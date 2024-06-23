@@ -4,8 +4,10 @@ import random
 
 from collision_handler import CollisionHandler
 from constants import *
+from pickup import Pickup
 from player import Player
 from asteroid_factory import AsteroidFactory
+from rocket import Rocket
 
 # pygame setup
 pygame.init()
@@ -34,9 +36,17 @@ player_sprite_group.add(player)
 asteroid_sprite_group = pygame.sprite.Group()
 asteroid_group = []
 
+rocket_sprite_group = pygame.sprite.Group()
+pickup_sprite_group = pygame.sprite.Group()
+
 asteroid_counter = 0
 next_asteroid = random.randrange(
     ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / 100
+
+pickup_counter = 0
+pickup = ''
+next_pickup = random.randrange(
+    PICKUP_MIN_SPAWN_TIME, PICKUP_MAX_SPAWN_TIME) / 100
 
 while running:
     # poll for events
@@ -57,7 +67,7 @@ while running:
 
     asteroid_counter += dt
 
-    if asteroid_counter >= next_asteroid and len(asteroid_group) < 1:
+    if asteroid_counter >= next_asteroid:
         asteroid = AsteroidFactory.create()
         asteroid_sprite_group.add(asteroid)
         asteroid_group.append(asteroid)
@@ -66,10 +76,27 @@ while running:
         ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / 100
         asteroid_counter = 0
 
+    pickup_counter += dt
+
+    if pickup_counter >= next_pickup and not player.hasRocket:
+        y_coord = random.randint(0, SCREEN_HEIGHT)
+        position = pygame.Vector2(SCREEN_WIDTH, y_coord)
+        pickup = Pickup(position)
+        pickup_sprite_group.add(pickup)
+        player.hasRocket = True
+
     CollisionHandler.checkPlayer(player, asteroid_group)
+
+    pickupCollision = CollisionHandler.checkPickup(player, pickup)
+    if pickupCollision:
+        player.hasRocket = True
+        pickup_sprite_group.empty()
 
     asteroid_sprite_group.update(dt)
     asteroid_sprite_group.draw(screen)
+
+    pickup_sprite_group.update(dt)
+    pickup_sprite_group.draw(screen)
 
     pygame.display.update()
 
