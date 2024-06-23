@@ -49,6 +49,8 @@ class Playing(GameState):
         self.pickup_sprite_group = pygame.sprite.Group()
 
         self.score = Score(self.screen)
+        self.pickup_sound = pygame.mixer.Sound('Resources/Sounds/pickup.wav')
+        self.pickup_sound.set_volume(0.5)
 
     def handle_events(self, events):
         return super().handle_events()
@@ -96,6 +98,7 @@ class Playing(GameState):
                 self.player, self.pickup)
 
             if pickupCollision:
+                self.pickup_sound.play()
                 self.player.hasRocket = True
                 self.pickup_sprite_group.empty()
                 self.pickup = None
