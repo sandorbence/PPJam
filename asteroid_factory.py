@@ -8,7 +8,7 @@ from asteroid_variants import *
 
 class AsteroidFactory:
     @classmethod
-    def create(cls):
+    def create(cls, pace):
         y_coord = random.randint(0, SCREEN_HEIGHT)
         position = pygame.Vector2(SCREEN_WIDTH, y_coord)
 
@@ -37,4 +37,4 @@ class AsteroidFactory:
         
         variant["img"] = pygame.transform.scale(variant["img"], (new_width, new_height))
 
-        return Asteroid(variant["img"], position, variant["hitbox_x"], variant["hitbox_y"])
+        return Asteroid(variant["img"], position, variant["hitbox_x"], variant["hitbox_y"], pace)

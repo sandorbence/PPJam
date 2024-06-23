@@ -49,20 +49,30 @@ class Playing(GameState):
         self.pickup_sprite_group = pygame.sprite.Group()
 
         self.score = Score(self.screen)
-        
+
         self.pickup_sound = pygame.mixer.Sound('Resources/Sounds/pickup.wav')
         self.pickup_sound.set_volume(0.5)
-        self.game_over_sound = pygame.mixer.Sound('Resources/Sounds/game_over.wav')
+        self.game_over_sound = pygame.mixer.Sound(
+            'Resources/Sounds/game_over.wav')
         self.game_over_sound.set_volume(0.2)
         self.hit_sound = pygame.mixer.Sound('Resources/Sounds/hit.wav')
         self.hit_sound.set_volume(0.5)
         self.shoot_sound = pygame.mixer.Sound('Resources/Sounds/shoot.wav')
         self.shoot_sound.set_volume(0.5)
-        
+
+        self.pace_counter = 0
+        self.pace = 1.0
+
     def handle_events(self, events):
         return super().handle_events()
 
     def update(self, dt):
+        self.pace_counter += dt
+
+        if self.pace_counter >= GETTING_HARDER:
+            self.pace += 0.1
+            self.pace_counter = 0
+
         if self.i <= -SCREEN_WIDTH:
             self.i = 0
         self.i -= BACKGROUND_MOVE_SPEED
@@ -72,11 +82,11 @@ class Playing(GameState):
         self.asteroid_counter += dt
 
         if self.asteroid_counter >= self.next_asteroid:
-            asteroid = AsteroidFactory.create()
+            asteroid = AsteroidFactory.create(self.pace)
             self.asteroid_sprite_group.add(asteroid)
             self.asteroid_group.append(asteroid)
             self.next_asteroid = random.randrange(
-                ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / 100
+                ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / (100*self.pace)
             self.asteroid_counter = 0
 
         self.pickup_counter += dt
@@ -84,7 +94,7 @@ class Playing(GameState):
         if self.pickup_counter >= self.next_pickup and not self.player.hasRocket:
             y_coord = random.randint(0, SCREEN_HEIGHT)
             position = pygame.Vector2(SCREEN_WIDTH, y_coord)
-            self.pickup = Pickup(position)
+            self.pickup = Pickup(position, self.pace)
             self.pickup_sprite_group.add(self.pickup)
             self.pickup_counter = 0
 
@@ -115,7 +125,8 @@ class Playing(GameState):
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE]:
                 self.shoot_sound.play()
-                self.rocket = Rocket(copy.copy(self.player.position))
+                self.rocket = Rocket(
+                    copy.copy(self.player.position), self.pace)
                 self.rocket_sprite_group.add(self.rocket)
                 self.player.hasRocket = False
 
