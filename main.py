@@ -27,7 +27,6 @@ while running:
     state_manager.update(dt)
     state_manager.render()
 
-
     pygame.display.update()
 
     # limits FPS to 60

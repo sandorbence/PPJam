@@ -9,6 +9,7 @@ from asteroid_factory import AsteroidFactory
 from constants import *
 from collision_handler import CollisionHandler
 from rocket import Rocket
+from score import Score
 
 
 class Playing(GameState):
@@ -42,9 +43,11 @@ class Playing(GameState):
         self.rocket = ''
         self.next_pickup = random.randrange(
             PICKUP_MIN_SPAWN_TIME, PICKUP_MAX_SPAWN_TIME) / 100
-        
+
         self.rocket_sprite_group = pygame.sprite.Group()
         self.pickup_sprite_group = pygame.sprite.Group()
+
+        self.score = Score(self.screen)
 
     def handle_events(self, events):
         return super().handle_events()
@@ -66,7 +69,6 @@ class Playing(GameState):
                 ASTEROID_MIN_SPAWN_TIME, ASTEROID_MAX_SPAWN_TIME) / 100
             self.asteroid_counter = 0
 
-
         for asteroid in self.asteroid_group:
             if asteroid.rect.right < 0:
                 self.asteroid_group.remove(asteroid)
@@ -82,7 +84,8 @@ class Playing(GameState):
             self.pickup_counter = 0
 
         CollisionHandler.checkPlayer(self.player, self.asteroid_group)
-        pickupCollision = CollisionHandler.checkPickup(self.player, self.pickup)
+        pickupCollision = CollisionHandler.checkPickup(
+            self.player, self.pickup)
         if pickupCollision:
             self.player.hasRocket = True
             self.pickup_sprite_group.empty()
@@ -94,10 +97,10 @@ class Playing(GameState):
                 self.rocket = Rocket(copy.copy(self.player.position))
                 self.rocket_sprite_group.add(self.rocket)
                 self.player.hasRocket = False
-                
 
         if self.rocket != '':
-            self.asteroid_group = CollisionHandler.checkBlast(self.rocket, self.asteroid_group)
+            self.asteroid_group = CollisionHandler.checkBlast(
+                self.rocket, self.asteroid_group)
             if len(self.asteroid_group) != len(self.asteroid_sprite_group):
                 self.asteroid_sprite_group.empty()
                 for asteroid in self.asteroid_group:
@@ -108,6 +111,7 @@ class Playing(GameState):
         self.asteroid_sprite_group.update(dt)
         self.pickup_sprite_group.update(dt)
         self.rocket_sprite_group.update(dt)
+        self.score.update(dt)
 
     def render(self):
         self.screen.blit(self.bg_image, (self.i, 0))
@@ -116,3 +120,4 @@ class Playing(GameState):
         self.asteroid_sprite_group.draw(self.screen)
         self.pickup_sprite_group.draw(self.screen)
         self.rocket_sprite_group.draw(self.screen)
+        self.score.render()
