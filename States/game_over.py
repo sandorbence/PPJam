@@ -1,8 +1,8 @@
 import pygame
 
 from States.game_state import GameState
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, BACKGROUND_MOVE_SPEED
-from events import GAME_STARTED_EVENT, MAIN_MENU_ENTERED_EVENT, PLAYER_COLLIDED_EVENT
+from Resources.Scripts.constants import SCREEN_WIDTH, SCREEN_HEIGHT, BACKGROUND_MOVE_SPEED
+from Resources.Scripts.events import GAME_STARTED_EVENT, MAIN_MENU_ENTERED_EVENT, PLAYER_COLLIDED_EVENT
 
 
 class GameOver(GameState):

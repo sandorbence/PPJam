@@ -3,14 +3,14 @@ import pygame
 import random
 
 from States.game_state import GameState
-from pickup import Pickup
-from player import Player
-from asteroid_factory import AsteroidFactory
-from constants import *
-from collision_handler import CollisionHandler
-from rocket import Rocket
-from score import Score
-from events import PLAYER_COLLIDED_EVENT
+from Resources.Scripts.pickup import Pickup
+from Resources.Scripts.player import Player
+from Resources.Scripts.asteroid_factory import AsteroidFactory
+from Resources.Scripts.constants import *
+from Resources.Scripts.collision_handler import CollisionHandler
+from Resources.Scripts.rocket import Rocket
+from Resources.Scripts.score import Score
+from Resources.Scripts.events import PLAYER_COLLIDED_EVENT
 
 
 class Playing(GameState):

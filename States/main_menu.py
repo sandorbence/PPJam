@@ -1,8 +1,8 @@
 import pygame
 
 from States.game_state import GameState
-from constants import *
-from events import GAME_STARTED_EVENT
+from Resources.Scripts.constants import *
+from Resources.Scripts.events import GAME_STARTED_EVENT
 
 
 class MainMenu(GameState):

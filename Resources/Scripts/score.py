@@ -1,5 +1,5 @@
 import pygame
-from constants import SCORE_MULTIPLIER, ASTEROID_SCORE
+from Resources.Scripts.constants import SCORE_MULTIPLIER, ASTEROID_SCORE
 
 
 class Score():

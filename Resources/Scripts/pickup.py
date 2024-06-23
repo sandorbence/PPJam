@@ -1,5 +1,5 @@
 import pygame
-from constants import *
+from Resources.Scripts.constants import *
 
 
 class Pickup(pygame.sprite.Sprite):

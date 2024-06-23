@@ -1,5 +1,5 @@
 import pygame
-from constants import *
+from Resources.Scripts.constants import *
 
 
 class Asteroid(pygame.sprite.Sprite):

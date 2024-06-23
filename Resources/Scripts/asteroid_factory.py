@@ -1,9 +1,9 @@
 import pygame
 import random
 
-from asteroid import Asteroid
-from constants import *
-from asteroid_variants import *
+from Resources.Scripts.asteroid import Asteroid
+from Resources.Scripts.constants import *
+from Resources.Scripts.asteroid_variants import *
 
 
 class AsteroidFactory:

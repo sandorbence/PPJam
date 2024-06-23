@@ -1,6 +1,6 @@
 import pygame
 
-from constants import ASTEROID_MOVE_SPEED
+from Resources.Scripts.constants import ASTEROID_MOVE_SPEED
 
 
 class Rocket(pygame.sprite.Sprite):

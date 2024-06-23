@@ -1,4 +1,4 @@
-from player import Player
+from Resources.Scripts.player import Player
 
 
 class CollisionHandler:

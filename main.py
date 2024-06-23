@@ -1,7 +1,7 @@
 import pygame
 
 from States.state_manager import StateManager
-from constants import *
+from Resources.Scripts.constants import *
 
 # pygame setup
 pygame.init()
